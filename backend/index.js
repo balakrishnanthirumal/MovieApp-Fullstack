@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import path from "path";
 import userRoutes from "./routes/userRoutes.js";
+import genreRoutes from "./routes/genreRoutes.js";
 
 import connectDB from "./config/db.js";
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/genre", genreRoutes);
 
 const PORT = process.env.PORT || 3000;
 

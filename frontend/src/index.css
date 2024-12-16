@@ -9,7 +9,9 @@ body {
 
 input,
 textarea {
-  color: #000;
+  color: #ebe3e3;
+  background-color: #0f0f10;
+  caret-color: #ccc;
 }
 
 select option {

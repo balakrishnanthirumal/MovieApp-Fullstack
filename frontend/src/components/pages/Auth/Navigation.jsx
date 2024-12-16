@@ -8,7 +8,7 @@ import { MdOutlineLocalMovies } from "react-icons/md";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { useLoginMutation } from "../../../redux/api/users";
+import { useLoginMutation, useLogoutMutation } from "../../../redux/api/users";
 import { logoutUser } from "../../../redux/features/auth/authSlice.js";
 
 const Navigation = () => {
@@ -22,7 +22,17 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [logoutApiCall] = useLoginMutation();
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logoutUser());
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="fixed bottom-10 left-[30rem] transform translate-x-1/2 translate-y-1/2 -50 bg-[#0f0f0f] border w-[30%] px-[4rem] mb-[2rem] rounded">
@@ -92,8 +102,10 @@ const Navigation = () => {
               <li>
                 <Link
                   to="/profile"
-                  className="block px-2 py-2 hover: bg-gray-100"
-                ></Link>
+                  className="block px-4 py-2 hover: bg-gray-100"
+                >
+                  Profile
+                </Link>
 
                 <li>
                   <button
@@ -103,6 +115,30 @@ const Navigation = () => {
                     Logout
                   </button>
                 </li>
+              </li>
+            </ul>
+          )}
+
+          {!userInfo && (
+            <ul className="flex">
+              <li>
+                <Link
+                  to="/login"
+                  className="flex items-center mt-5 transition-transform transform hover:translate-x-2 mb-[2rem]"
+                >
+                  <AiOutlineLogin className="mr-2 mt-[4px]" size={26} />
+                  <span className="hidden nav-item-name">LOGIN</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/register"
+                  className="flex items-center mt-5 transition-transform transform hover:translate-x-2 ml-[1rem]"
+                >
+                  <AiOutlineUserAdd size={26} />
+                  <span className="hidden nav-item-name">REGISTER</span>
+                </Link>
               </li>
             </ul>
           )}
